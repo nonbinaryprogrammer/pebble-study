@@ -1,28 +1,34 @@
 #include <pebble.h>
+#include <todo.h>
 
+/**************************************************
+Define all windows
+**************************************************/
 static Window *s_main_window;
-static MenuLayer *s_menu_layer;
 
+/**************************************************
+Define all layers
+**************************************************/
+static MenuLayer *s_menu_layer;
 static TextLayer *s_error_text_layer;
 
-typedef struct {
-  char title[35];
-  char descr[100];
-  int class;
-  char subje[5];
-  float t_est;
-  int compl;
-  float actua;
-} ToDo;
-
+/**************************************************
+Define list of todo items
+**************************************************/
 ToDo item_arr[] = {
   {"Lab #6", "Chapter 16, #1, 3, 5a", 321, "MTH", 2.0, 0, 0},
   {"Homework #3", "Chapter 12, #3, 4b, 5de, 6, 7, 11", 321, "MTH", 2.5, 0, 0},
   {"OTP Implementation", "OTP and Socket communication implementation in C", 344, "CS", 6.0, 0, 0}
 };
 
+/**************************************************
+Define list of menu items
+**************************************************/
 static char* menu_arr[] = {"start studying", "view to-do list", "view holds", "view stats"};
 
+/**************************************************
+Hides error layer if visible
+**************************************************/
 static void select_callback(struct MenuLayer *s_menu_layer, MenuIndex *cell_index, void *callback_context) {
   if(!layer_get_hidden(text_layer_get_layer(s_error_text_layer))) {
     layer_set_hidden(text_layer_get_layer(s_error_text_layer), true);
@@ -30,16 +36,25 @@ static void select_callback(struct MenuLayer *s_menu_layer, MenuIndex *cell_inde
   return;
 }
 
+/**************************************************
+Returns number of rows in main menu
+**************************************************/
 static uint16_t get_section_count_callback(struct MenuLayer *menulayer, uint16_t section_index, void *callback_context) {
   return 4;
 }
 
+/**************************************************
+Draws main menu rows
+**************************************************/
 static void draw_row_handler(GContext *ctx, const Layer *cell_layer, MenuIndex *cell_index, void *callback_context) {
   char* txt = menu_arr[cell_index->row];
   
   menu_cell_basic_draw(ctx, cell_layer, txt, NULL, NULL);
 }
 
+/**************************************************
+Creates main window layers
+**************************************************/
 static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -63,10 +78,17 @@ static void main_window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(s_error_text_layer));
 }
 
+/**************************************************
+Destroys main window layers
+**************************************************/
 static void main_window_unload(Window *window) {
+  text_layer_destroy(s_error_text_layer);
   menu_layer_destroy(s_menu_layer);
 }
 
+/**************************************************
+Create main window
+**************************************************/
 static void init() {
   s_main_window = window_create();
   
@@ -78,10 +100,16 @@ static void init() {
   window_stack_push(s_main_window, true);
 }
 
+/**************************************************
+Destroy main window
+**************************************************/
 static void deinit() {
   window_destroy(s_main_window);
 }
 
+/**************************************************
+Create/Destroy app and wait for events
+**************************************************/
 int main(void) {
   init();
   app_event_loop();
