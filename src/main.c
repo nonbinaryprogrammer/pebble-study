@@ -1,5 +1,9 @@
 #include <pebble.h>
 #include <todo.h>
+#include <windows/view_todo_list_window.h>
+#include <windows/view_holds_window.h>
+#include <windows/view_stats_window.h>
+#include <windows/start_studying_window.h>
 
 /**************************************************
 Define all windows
@@ -13,15 +17,6 @@ static MenuLayer *s_menu_layer;
 static TextLayer *s_error_text_layer;
 
 /**************************************************
-Define list of todo items
-**************************************************/
-ToDo item_arr[] = {
-  {"Lab #6", "Chapter 16, #1, 3, 5a", 321, "MTH", 2.0, 0, 0},
-  {"Homework #3", "Chapter 12, #3, 4b, 5de, 6, 7, 11", 321, "MTH", 2.5, 0, 0},
-  {"OTP Implementation", "OTP and Socket communication implementation in C", 344, "CS", 6.0, 0, 0}
-};
-
-/**************************************************
 Define list of menu items
 **************************************************/
 static char* menu_arr[] = {"start studying", "view to-do list", "view holds", "view stats"};
@@ -33,6 +28,24 @@ static void select_callback(struct MenuLayer *s_menu_layer, MenuIndex *cell_inde
   if(!layer_get_hidden(text_layer_get_layer(s_error_text_layer))) {
     layer_set_hidden(text_layer_get_layer(s_error_text_layer), true);
   }
+  
+  switch(cell_index->row) {
+    case 0:
+      start_studying_window_push();
+      break;
+    case 1:
+      view_todo_list_window_push();
+      break;
+    case 2:
+      view_holds_window_push();
+      break;
+    case 3:
+      view_stats_window_push();
+      break;
+    default:
+      break;
+  }
+  
   return;
 }
 
