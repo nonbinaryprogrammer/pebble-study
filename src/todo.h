@@ -4,9 +4,11 @@ Define todo list item struct
 typedef struct {
   char title[35];
   char descr[100];
-  char class[5];
+  char clnum[5];
   char subje[5];
-  float t_est;
+  int t_hrs;
+  int t_min;
   int compl;
-  float actua;
+  int e_hrs;
+  int e_min;
 } ToDo;
