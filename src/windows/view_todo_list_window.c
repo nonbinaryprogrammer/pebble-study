@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <windows/view_todo_list_window.h>
 #include <windows/view_full_item_window.h>
+#include <windows/view_todo_list_window.h>
 
 /*********************HINT*************************
 typedef struct {
@@ -29,7 +29,7 @@ static MenuLayer *s_menu_layer;
 /**************************************************
 Define list of todo items
 **************************************************/
-ToDo item_arr[] = {
+static ToDo item_arr[] = {
   {"Lab #6", "Chapter 16, #1, 3, 5a", "321", "MTH", 2, 0, 0, 0, 0},
   {"Homework #3", "Chapter 12, #3, 4b, 5de, 6, 7, 11", "321", "MTH", 2, 30, 0, 0, 0},
   {"OTP Implementation", "OTP and Socket communication implementation in C", "344", "CS", 6, 0, 0, 0, 0}
@@ -95,7 +95,7 @@ static void window_unload(Window *window) {
 /**************************************************
 create main window if it doesn't exist
 **************************************************/
-void view_todo_list_window_push(void) {
+void view_todo_list_window_push() {  
   if(!s_menu_window) {
     s_menu_window = window_create();
     window_set_background_color(s_menu_window, GColorWhite);

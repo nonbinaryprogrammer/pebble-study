@@ -1,5 +1,4 @@
 #include <pebble.h>
-#include <todo.h>
 #include <windows/view_todo_list_window.h>
 #include <windows/view_holds_window.h>
 #include <windows/view_stats_window.h>
