@@ -13,12 +13,17 @@ static ToDo item_arr[] = {
 };
 
 static void center_click_handler(ClickRecognizerRef recognizer, void *context) {
-  item_arr[s_num].compl = 1;
   completed_message_window_push(s_num);
+  window_stack_remove(s_main_window, true);
+}
+
+static void back_click_handler(ClickRecognizerRef recognizer, void *context) {
+  window_stack_remove(s_main_window, true);
 }
 
 static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, center_click_handler);
+  window_single_click_subscribe(BUTTON_ID_BACK, back_click_handler);
 }
 
 static void window_load(Window *window) {
